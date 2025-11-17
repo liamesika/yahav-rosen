@@ -1,0 +1,1809 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>יהב רוזן - מעצבת פנים | עיצוב פנים מודרני</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700;800&family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --cream: #F5F0E8;
+            --dark-charcoal: #1A1A1A;
+            --soft-taupe: #C8BDB1;
+            --warm-gold: #D4AF37;
+            --pure-white: #FFFFFF;
+            --text-primary: #2C2C2C;
+            --text-secondary: #666666;
+            --elegant-shadow: 0 30px 90px rgba(0, 0, 0, 0.12);
+            --luxury-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        body {
+            font-family: 'Assistant', 'Heebo', sans-serif;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: var(--pure-white);
+            line-height: 1.8;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ========================================
+           HERO SECTION - CINEMATIC SLIDESHOW
+        ======================================== */
+
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .hero-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 12s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(0.85);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(26, 26, 26, 0.6) 0%,
+                rgba(26, 26, 26, 0.3) 50%,
+                rgba(26, 26, 26, 0.5) 100%
+            );
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 2;
+            width: 90%;
+            max-width: 900px;
+            color: var(--pure-white);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 5.5rem);
+            font-weight: 300;
+            margin-bottom: 40px;
+            letter-spacing: 3px;
+            line-height: 1.3;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUpHero 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s forwards;
+            font-family: 'Assistant', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .hero-title strong {
+            font-weight: 700;
+            display: block;
+            margin-top: 20px;
+            letter-spacing: 4px;
+        }
+
+        .hero-description {
+            font-size: clamp(1.15rem, 2vw, 1.35rem);
+            font-weight: 300;
+            margin-bottom: 50px;
+            letter-spacing: 0.5px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUpHero 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 0.6s forwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 22px 60px;
+            background: var(--pure-white);
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border-radius: 0;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUpHero 1.2s cubic-bezier(0.22, 0.61, 0.36, 1) 1.2s forwards;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--warm-gold);
+            transition: left 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            color: var(--pure-white);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        @keyframes fadeInUpHero {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========================================
+           ABOUT SECTION - ELEGANT & MINIMAL
+        ======================================== */
+
+        .about-section {
+            padding: 180px 8%;
+            background: linear-gradient(to bottom, var(--pure-white) 0%, var(--cream) 100%);
+            position: relative;
+        }
+
+        .about-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 120px;
+            align-items: center;
+        }
+
+        .about-image-wrapper {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-80px) scale(0.95);
+            transition: all 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .about-image-wrapper.visible {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+        }
+
+        .about-image {
+            width: 100%;
+            height: 650px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: var(--elegant-shadow);
+            position: relative;
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            right: -30px;
+            width: 200px;
+            height: 200px;
+            border: 1px solid var(--soft-taupe);
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .about-content {
+            opacity: 0;
+            transform: translateX(80px);
+            transition: all 1.4s cubic-bezier(0.22, 0.61, 0.36, 1) 0.3s;
+        }
+
+        .about-content.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .section-label {
+            font-size: 0.85rem;
+            color: var(--warm-gold);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 25px;
+            font-weight: 500;
+            display: inline-block;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .section-label::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 60px;
+            height: 1px;
+            background: var(--warm-gold);
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            font-weight: 200;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+            line-height: 1.2;
+            letter-spacing: -0.5px;
+        }
+
+        .section-title strong {
+            font-weight: 700;
+            display: block;
+        }
+
+        .about-text {
+            font-size: 1.15rem;
+            line-height: 2;
+            color: var(--text-secondary);
+            font-weight: 300;
+            margin-bottom: 25px;
+        }
+
+        .about-text:last-of-type {
+            margin-bottom: 0;
+        }
+
+        /* ========================================
+           EXPERTISE SECTION - CARDS WITH ICONS
+        ======================================== */
+
+        .expertise-section {
+            padding: 180px 8%;
+            background: var(--pure-white);
+            position: relative;
+        }
+
+        .expertise-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .expertise-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .expertise-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+        }
+
+        .expertise-card {
+            background: var(--pure-white);
+            padding: 60px 40px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            text-align: center;
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            opacity: 0;
+            transform: translateY(60px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .expertise-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--warm-gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .expertise-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .expertise-card:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .expertise-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-20px);
+            box-shadow: var(--elegant-shadow);
+            border-color: transparent;
+        }
+
+        .expertise-card:hover::before {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        .expertise-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--cream);
+            border-radius: 50%;
+            transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            position: relative;
+        }
+
+        .expertise-card:hover .expertise-icon {
+            border-color: var(--warm-gold);
+            transform: rotateY(360deg);
+        }
+
+        .expertise-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: var(--warm-gold);
+            transition: all 0.6s ease;
+        }
+
+        .expertise-card:hover .expertise-icon svg {
+            fill: var(--warm-gold);
+            transform: scale(1.1);
+        }
+
+        .expertise-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            color: var(--text-primary);
+            letter-spacing: 0.5px;
+        }
+
+        .expertise-description {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        /* ========================================
+           BEFORE/AFTER - PREMIUM INTERACTIVE
+        ======================================== */
+
+        .showcase-section {
+            padding: 180px 8%;
+            background: var(--cream);
+            position: relative;
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .showcase-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .showcase-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 60px;
+        }
+
+        .showcase-item {
+            position: relative;
+            height: 600px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: var(--elegant-shadow);
+            opacity: 0;
+            transform: translateY(80px) scale(0.95);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .showcase-item.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .showcase-item:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .showcase-item:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .showcase-item:nth-child(4) {
+            transition-delay: 0.45s;
+        }
+
+        .showcase-before,
+        .showcase-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .showcase-before img,
+        .showcase-after img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .showcase-after {
+            clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
+            transition: clip-path 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .showcase-item:hover .showcase-after {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .showcase-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .showcase-divider {
+            position: absolute;
+            top: 0;
+            left: 100%;
+            width: 3px;
+            height: 100%;
+            background: var(--pure-white);
+            z-index: 10;
+            transition: left 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .showcase-item:hover .showcase-divider {
+            left: 50%;
+        }
+
+        .showcase-label {
+            position: absolute;
+            bottom: 40px;
+            padding: 15px 35px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            font-weight: 500;
+            font-size: 0.9rem;
+            z-index: 20;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .showcase-label.before-label {
+            right: 40px;
+            transform: translateY(0);
+        }
+
+        .showcase-label.after-label {
+            left: 40px;
+            transform: translateY(150%);
+            opacity: 0;
+        }
+
+        .showcase-item:hover .showcase-label.before-label {
+            transform: translateY(150%);
+            opacity: 0;
+        }
+
+        .showcase-item:hover .showcase-label.after-label {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ========================================
+           REVIEWS - CLEAN & MODERN
+        ======================================== */
+
+        .reviews-section {
+            padding: 180px 8%;
+            background: var(--pure-white);
+        }
+
+        .reviews-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .reviews-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reviews-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 50px;
+        }
+
+        .review-card {
+            background: var(--pure-white);
+            padding: 60px 45px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            opacity: 0;
+            transform: translateY(60px);
+            position: relative;
+        }
+
+        .review-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--warm-gold);
+            transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .review-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .review-card:nth-child(2) {
+            transition-delay: 0.15s;
+        }
+
+        .review-card:nth-child(3) {
+            transition-delay: 0.3s;
+        }
+
+        .review-card:hover {
+            transform: translateY(-15px);
+            box-shadow: var(--luxury-shadow);
+            border-color: transparent;
+        }
+
+        .review-card:hover::before {
+            width: 100%;
+        }
+
+        .review-stars {
+            color: var(--warm-gold);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+        }
+
+        .review-text {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            margin-bottom: 35px;
+            font-weight: 300;
+            font-style: italic;
+        }
+
+        .review-author {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* ========================================
+           GALLERY - CURATED & AESTHETIC
+        ======================================== */
+
+        .gallery-section {
+            padding: 180px 8%;
+            background: var(--dark-charcoal);
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .gallery-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-header .section-label {
+            color: var(--soft-taupe);
+        }
+
+        .gallery-header .section-label::after {
+            background: var(--soft-taupe);
+        }
+
+        .gallery-header .section-title {
+            color: var(--pure-white);
+        }
+
+        .gallery-grid {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0;
+            transform: scale(0.9) translateY(60px);
+            transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+
+        .gallery-item:nth-child(2) { transition-delay: 0.1s; }
+        .gallery-item:nth-child(3) { transition-delay: 0.2s; }
+        .gallery-item:nth-child(4) { transition-delay: 0.3s; }
+        .gallery-item:nth-child(5) { transition-delay: 0.4s; }
+        .gallery-item:nth-child(6) { transition-delay: 0.5s; }
+        .gallery-item:nth-child(7) { transition-delay: 0.6s; }
+        .gallery-item:nth-child(8) { transition-delay: 0.7s; }
+        .gallery-item:nth-child(9) { transition-delay: 0.8s; }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(212, 175, 55, 0) 0%,
+                rgba(212, 175, 55, 0.2) 100%
+            );
+            opacity: 0;
+            transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            z-index: 1;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+            filter: grayscale(0.2);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.15);
+            filter: grayscale(0);
+        }
+
+        /* ========================================
+           CTA SECTION - STRONG & IMPACTFUL
+        ======================================== */
+
+        .cta-section {
+            padding: 200px 8%;
+            background: linear-gradient(
+                135deg,
+                var(--dark-charcoal) 0%,
+                #2A2A2A 100%
+            );
+            text-align: center;
+            color: var(--pure-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle,
+                rgba(212, 175, 55, 0.05) 0%,
+                transparent 70%
+            );
+            animation: pulse 15s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.2); opacity: 0.8; }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .cta-section .section-label {
+            color: var(--soft-taupe);
+        }
+
+        .cta-section .section-label::after {
+            background: var(--soft-taupe);
+        }
+
+        .cta-section .section-title {
+            color: var(--pure-white);
+            margin-bottom: 35px;
+        }
+
+        .cta-description {
+            font-size: 1.25rem;
+            line-height: 2;
+            max-width: 700px;
+            margin: 0 auto 60px;
+            font-weight: 300;
+            color: var(--soft-taupe);
+        }
+
+        .cta-section .cta-button {
+            background: var(--warm-gold);
+            color: var(--dark-charcoal);
+            font-weight: 600;
+            animation: none;
+            opacity: 1;
+            transform: none;
+        }
+
+        .cta-section .cta-button::before {
+            background: var(--pure-white);
+        }
+
+        /* ========================================
+           FAQ SECTION - ACCORDION
+        ======================================== */
+
+        .faq-section {
+            padding: 180px 8%;
+            background: var(--cream);
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .faq-header.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--pure-white);
+            margin-bottom: 25px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-item:nth-child(2) { transition-delay: 0.1s; }
+        .faq-item:nth-child(3) { transition-delay: 0.2s; }
+        .faq-item:nth-child(4) { transition-delay: 0.3s; }
+        .faq-item:nth-child(5) { transition-delay: 0.4s; }
+
+        .faq-question {
+            padding: 35px 40px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .faq-question::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: var(--warm-gold);
+            transition: width 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .faq-item:hover .faq-question::before,
+        .faq-item.active .faq-question::before {
+            width: 100%;
+        }
+
+        .faq-question:hover {
+            background: rgba(245, 240, 232, 0.3);
+        }
+
+        .faq-question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            flex: 1;
+            padding-left: 30px;
+        }
+
+        .faq-icon {
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--warm-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-icon::before,
+        .faq-icon::after {
+            content: '';
+            position: absolute;
+            background: var(--warm-gold);
+            transition: all 0.4s ease;
+        }
+
+        .faq-icon::before {
+            width: 12px;
+            height: 2px;
+        }
+
+        .faq-icon::after {
+            width: 2px;
+            height: 12px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+            background: var(--warm-gold);
+        }
+
+        .faq-item.active .faq-icon::after {
+            opacity: 0;
+        }
+
+        .faq-item.active .faq-icon::before {
+            background: var(--pure-white);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .faq-answer-content {
+            padding: 0 40px 35px 40px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* ========================================
+           FOOTER - MINIMAL LUXURY
+        ======================================== */
+
+        .footer {
+            padding: 80px 8% 40px;
+            background: var(--dark-charcoal);
+            color: var(--soft-taupe);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-logo {
+            max-width: 180px;
+            margin: 0 auto 50px;
+            opacity: 0.8;
+            transition: opacity 0.4s ease;
+        }
+
+        .footer-logo:hover {
+            opacity: 1;
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            text-decoration: none;
+            color: var(--soft-taupe);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--warm-gold);
+            transition: left 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            z-index: 0;
+        }
+
+        .social-icon svg {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-icon:hover {
+            border-color: var(--warm-gold);
+            transform: translateY(-8px);
+        }
+
+        .social-icon:hover::before {
+            left: 0;
+        }
+
+        .social-icon:hover {
+            color: var(--dark-charcoal);
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            color: rgba(200, 189, 177, 0.5);
+            margin-top: 50px;
+            letter-spacing: 1px;
+            font-weight: 300;
+        }
+
+        /* ========================================
+           WHATSAPP FLOATING BUTTON
+        ======================================== */
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            width: 70px;
+            height: 70px;
+            background: #25D366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+            cursor: pointer;
+            text-decoration: none;
+            animation: floatPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes floatPulse {
+            0%, 100% { transform: translateY(0); box-shadow: 0 15px 40px rgba(37, 211, 102, 0.4); }
+            50% { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(37, 211, 102, 0.5); }
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15) translateY(-5px);
+            box-shadow: 0 20px 50px rgba(37, 211, 102, 0.6);
+            animation: none;
+        }
+
+        .whatsapp-float svg {
+            width: 38px;
+            height: 38px;
+            fill: white;
+        }
+
+        /* ========================================
+           MOBILE RESPONSIVE
+        ======================================== */
+
+        @media (max-width: 1024px) {
+            .about-container,
+            .showcase-grid,
+            .reviews-grid,
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .expertise-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+
+            .about-section,
+            .expertise-section,
+            .showcase-section,
+            .reviews-section,
+            .gallery-section,
+            .cta-section,
+            .faq-section {
+                padding: 120px 6%;
+            }
+
+            .showcase-item,
+            .gallery-item {
+                height: 450px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+
+            .hero-title strong {
+                letter-spacing: 3px;
+                margin-top: 15px;
+            }
+
+            .hero-description {
+                font-size: 1.1rem;
+            }
+
+            .cta-button {
+                padding: 18px 45px;
+                font-size: 0.9rem;
+            }
+
+            .about-section,
+            .expertise-section,
+            .showcase-section,
+            .reviews-section,
+            .gallery-section,
+            .cta-section,
+            .faq-section {
+                padding: 100px 5%;
+            }
+
+            .faq-question {
+                padding: 25px 25px;
+            }
+
+            .faq-question-text {
+                font-size: 1.05rem;
+                padding-left: 20px;
+            }
+
+            .faq-answer-content {
+                padding: 0 25px 25px 25px;
+                font-size: 1rem;
+            }
+
+            .about-container {
+                gap: 50px;
+            }
+
+            .expertise-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+            }
+
+            .expertise-card {
+                padding: 45px 30px;
+            }
+
+            .about-image {
+                height: 400px;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .showcase-item {
+                height: 400px;
+            }
+
+            .gallery-item {
+                height: 350px;
+            }
+
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                bottom: 25px;
+                left: 25px;
+            }
+
+            .whatsapp-float svg {
+                width: 32px;
+                height: 32px;
+            }
+
+            /* Mobile Touch Optimizations */
+            .showcase-grid,
+            .gallery-grid,
+            .reviews-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 30px;
+                padding-bottom: 30px;
+            }
+
+            .showcase-grid::-webkit-scrollbar,
+            .gallery-grid::-webkit-scrollbar,
+            .reviews-grid::-webkit-scrollbar {
+                display: none;
+            }
+
+            .showcase-item,
+            .gallery-item,
+            .review-card {
+                min-width: 90%;
+                scroll-snap-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========================================
+         HERO SECTION
+    ======================================== -->
+    <section class="hero">
+        <div class="hero-slideshow">
+            <div class="hero-slide active">
+                <img src="gallery/f2046164-ff54-4d43-8118-23f2712cccad.JPG" alt="עיצוב פנים יוקרתי" loading="eager">
+            </div>
+            <div class="hero-slide">
+                <img src="gallery/fe7861a3-94c6-4231-b2a2-3c4758bf01a2.JPG" alt="עיצוב מודרני" loading="lazy">
+            </div>
+            <div class="hero-slide">
+                <img src="gallery/8ad10f63-ca5a-4ed8-a8ab-d0ccd62a86ed.JPG" alt="עיצוב אלגנטי" loading="lazy">
+            </div>
+            <div class="hero-slide">
+                <img src="gallery/5b24d62d-f416-44ae-92dd-e800f75b5230.JPG" alt="עיצוב יוקרתי" loading="lazy">
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                YAHAV ROSEN -
+                <strong>Interior Designer</strong>
+            </h1>
+            <p class="hero-description">
+                תכנון ועיצוב פנים ייחודי לדירות, בתים פרטיים, קליניקות ומשרדים.
+            </p>
+            <a href="#contact" class="cta-button">בואו ניצור משהו מיוחד</a>
+        </div>
+    </section>
+
+    <!-- ========================================
+         ABOUT SECTION
+    ======================================== -->
+    <section class="about-section">
+        <div class="about-container">
+            <div class="about-image-wrapper">
+                <div class="about-image">
+                    <img src="gallery/4fada26e-f2d4-4ff7-9f69-5dfed5d154f2.JPG" alt="יהב רוזן - מעצבת פנים" loading="lazy">
+                </div>
+            </div>
+            <div class="about-content">
+                <div class="section-label">אודות</div>
+                <h2 class="section-title">
+                    יהב רוזן
+                    <strong>מעצבת פנים</strong>
+                </h2>
+                <p class="about-text">
+                    שמי יהב רוזן, ואני מעצבת פנים שמתמחה ביצירת חללים ייחודיים שמשלבים בין פונקציונליות לאסתטיקה. אני מאמינה שלבית יש תפקיד משמעותי בחיינו – הוא המקום שבו אנחנו מרגישים הכי בנוח, יוצרים זיכרונות ומוצאים השראה.
+                </p>
+                <p class="about-text">
+                    במהלך השנים צברתי ניסיון בתכנון ועיצוב של בתים פרטיים, דירות יוקרה וחללים מסחריים, תוך דגש על התאמת כל פרויקט לצרכים ולסגנון הייחודי של כל לקוח. כל פרויקט עבורי הוא מסע משותף, שבו אני מקשיבה, מתכננת, ומביאה לחיים את החלום שלך לבית מושלם.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         EXPERTISE SECTION
+    ======================================== -->
+    <section class="expertise-section">
+        <div class="expertise-header">
+            <div class="section-label">מומחיות</div>
+            <h2 class="section-title">
+                תחומי
+                <strong>התמחות</strong>
+            </h2>
+        </div>
+        <div class="expertise-grid">
+            <div class="expertise-card">
+                <div class="expertise-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                </div>
+                <h3 class="expertise-title">דירות יוקרה</h3>
+                <p class="expertise-description">
+                    עיצוב ותכנון דירות יוקרה הוא תהליך מורכב ומדויק, המשלב אסתטיקה ייחודית, פונקציונליות מתקדמת ושימוש בחומרי גלם איכותיים. הדגש הוא על יצירת חללים אלגנטיים, נקיים, נוחים ומרווחים.
+                </p>
+            </div>
+            <div class="expertise-card">
+                <div class="expertise-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+                    </svg>
+                </div>
+                <h3 class="expertise-title">חללים מסחריים</h3>
+                <p class="expertise-description">
+                    תכנון קפדני כולל ניצול מיטבי של החלל, תאורה טבעית, שילוב טכנולוגיות חכמות ויצירת חוויה הרמונית ויוקרתית. התאמה אישית של ריהוט מעוצב ברמה הגבוהה ביותר.
+                </p>
+            </div>
+            <div class="expertise-card">
+                <div class="expertise-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                    </svg>
+                </div>
+                <h3 class="expertise-title">פרטים קטנים</h3>
+                <p class="expertise-description">
+                    חומרים טבעיים כמו שיש, עץ וזכוכית, וגימורים מוקפדים מעניקים לחלל מראה מתוחכם ובלתי מתפשר. התוצאה היא חלל יוקרתי ומרשים המשקף את סגנון החיים של הלקוח בשילוב של נוחות, אלגנטיות והסתכלות על הפרטים הקטנים.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         BEFORE/AFTER SHOWCASE
+    ======================================== -->
+    <section class="showcase-section">
+        <div class="showcase-header">
+            <div class="section-label">התמורה</div>
+            <h2 class="section-title">
+                לפני
+                <strong>ואחרי</strong>
+            </h2>
+        </div>
+        <div class="showcase-grid">
+            <div class="showcase-item">
+                <div class="showcase-before">
+                    <img src="before-after/before1.JPG" alt="לפני" loading="lazy">
+                </div>
+                <div class="showcase-after">
+                    <img src="before-after/after1.JPG" alt="אחרי" loading="lazy">
+                </div>
+                <div class="showcase-divider"></div>
+                <span class="showcase-label before-label">לפני</span>
+                <span class="showcase-label after-label">אחרי</span>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-before">
+                    <img src="before-after/before2.JPG" alt="לפני" loading="lazy">
+                </div>
+                <div class="showcase-after">
+                    <img src="before-after/after2.JPG" alt="אחרי" loading="lazy">
+                </div>
+                <div class="showcase-divider"></div>
+                <span class="showcase-label before-label">לפני</span>
+                <span class="showcase-label after-label">אחרי</span>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-before">
+                    <img src="before-after/before3.JPG" alt="לפני" loading="lazy">
+                </div>
+                <div class="showcase-after">
+                    <img src="before-after/after3.JPG" alt="אחרי" loading="lazy">
+                </div>
+                <div class="showcase-divider"></div>
+                <span class="showcase-label before-label">לפני</span>
+                <span class="showcase-label after-label">אחרי</span>
+            </div>
+            <div class="showcase-item">
+                <div class="showcase-before">
+                    <img src="before-after/before4.JPG" alt="לפני" loading="lazy">
+                </div>
+                <div class="showcase-after">
+                    <img src="before-after/after4.JPG" alt="אחרי" loading="lazy">
+                </div>
+                <div class="showcase-divider"></div>
+                <span class="showcase-label before-label">לפני</span>
+                <span class="showcase-label after-label">אחרי</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         REVIEWS SECTION
+    ======================================== -->
+    <section class="reviews-section">
+        <div class="reviews-header">
+            <div class="section-label">המלצות</div>
+            <h2 class="section-title">
+                מה הלקוחות
+                <strong>אומרים</strong>
+            </h2>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    יהב הפכה את הדירה שלנו לבית חלומות אמיתי. תשומת הלב לפרטים, היכולת להקשיב ולהבין בדיוק מה אנחנו רוצים, והתוצאה המדהימה - פשוט מושלם. תודה ענקית!
+                </p>
+                <div class="review-author">שרה כהן, תל אביב</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    עבודה מקצועית ברמה הגבוהה ביותר. יהב הצליחה ליצור איזון מושלם בין עיצוב מודרני לתחושה של בית חם ומזמין. כל אורח שמגיע מתפעל מחדש. ממליצים בחום!
+                </p>
+                <div class="review-author">דוד ורונית לוי, רעננה</div>
+            </div>
+            <div class="review-card">
+                <div class="review-stars">★★★★★</div>
+                <p class="review-text">
+                    לא האמנו שאפשר ליצור שינוי כל כך דרמטי. החלל נראה גדול יותר, מואר יותר, ופשוט יפהפה. יהב ליוותה אותנו בסבלנות ובמקצועיות לאורך כל הדרך. כל הכבוד!
+                </p>
+                <div class="review-author">מיכל אברהם, הרצליה</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         GALLERY SECTION
+    ======================================== -->
+    <section class="gallery-section">
+        <div class="gallery-header">
+            <div class="section-label">פרויקטים נבחרים</div>
+            <h2 class="section-title">
+                גלריית
+                <strong>השראה</strong>
+            </h2>
+        </div>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="gallery/f2046164-ff54-4d43-8118-23f2712cccad.JPG" alt="פרויקט עיצוב 1" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/fe7861a3-94c6-4231-b2a2-3c4758bf01a2.JPG" alt="פרויקט עיצוב 2" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/8ad10f63-ca5a-4ed8-a8ab-d0ccd62a86ed.JPG" alt="פרויקט עיצוב 3" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/5b24d62d-f416-44ae-92dd-e800f75b5230.JPG" alt="פרויקט עיצוב 4" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/4fada26e-f2d4-4ff7-9f69-5dfed5d154f2.JPG" alt="פרויקט עיצוב 5" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/66f4d284-4c1a-4b5f-91bc-568884f16ab5.JPG" alt="פרויקט עיצוב 6" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/b796995c-ed77-4636-a8aa-3ef82159fdd5.JPG" alt="פרויקט עיצוב 7" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/58e4977b-46ab-4ca0-bd5a-3727ba66e926.JPG" alt="פרויקט עיצוב 8" loading="lazy">
+            </div>
+            <div class="gallery-item">
+                <img src="gallery/e7465211-1084-4420-a82c-e24dd93744d0.JPG" alt="פרויקט עיצוב 9" loading="lazy">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         CTA SECTION
+    ======================================== -->
+    <section class="cta-section" id="contact">
+        <div class="cta-content">
+            <div class="section-label">מוכנים להתחיל?</div>
+            <h2 class="section-title">
+                בואו ניצור
+                <strong>משהו יוצא דופן ביחד</strong>
+            </h2>
+            <p class="cta-description">
+                הפכו את הבית שלכם למקום שאתם באמת אוהבים. קבעו פגישת ייעוץ ללא התחייבות ובואו נתחיל לתכנן את החלל המושלם עבורכם.
+            </p>
+            <a href="https://wa.me/972501234567" class="cta-button">צרו קשר עכשיו</a>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FAQ SECTION
+    ======================================== -->
+    <section class="faq-section">
+        <div class="faq-header">
+            <div class="section-label">שאלות נפוצות</div>
+            <h2 class="section-title">
+                יש לכם
+                <strong>שאלות?</strong>
+            </h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 class="faq-question-text">מה תחום העיסוק שלך?</h3>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        אנחנו מתמחים בתכנון ועיצוב של מבנים, בתים, חללים מסחריים וכל חלל שרק תרצו. מטרתנו היא להפוך את החלום שלכם למציאות תוך איזון בין יופי, נוחות, פונקציונליות, פרקטיות והתחשבות בפרטים הקטנים — בדרך הכי פשוטה ויעילה עבורכם.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 class="faq-question-text">האם אתם מתעסקים גם בתכנון ועיצוב של חלקים מהבית (כמו מטבח, חדרי רחצה)?</h3>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        בהחלט. תפנו אלינו ונוכל לעשות כל מה שתרצו.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 class="faq-question-text">כמה זמן לוקח פרויקט מהתחלה ועד הסוף?</h3>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        תלוי מאוד באופי הפרויקט. אנחנו משתדלים להביא את החלום שלכם למציאות בדרך המהירה ביותר, בלי להתפשר על האיכות הגבוהה ביותר. דברו איתנו ונוכל להעריך כמה זמן ייקח לפרויקט הספציפי שלכם.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 class="faq-question-text">איך אפשר לקבל הצעת מחיר?</h3>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        תפנו אליי בוואטסאפ ואשמח לתת הצעת מחיר בהתאם.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3 class="faq-question-text">באיזה אזורים בארץ את עובדת?</h3>
+                    <div class="faq-icon"></div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        אני מגיעה לכל האזורים במרכז הארץ ובצפון.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================
+         FOOTER
+    ======================================== -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <svg width="180" height="60" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <text x="90" y="40" font-family="Heebo, sans-serif" font-size="24" font-weight="300" fill="#C8BDB1" text-anchor="middle">יהב רוזן</text>
+            </svg>
+        </div>
+        <!--<div class="footer-social">
+            <a href="#" class="social-icon" aria-label="Facebook">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                    <path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z"/>
+                </svg>
+            </a>
+            <a href="#" class="social-icon" aria-label="Instagram">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                    <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                </svg>
+            </a>
+        </div> -->
+        <div class="footer-copyright">
+            &copy; 2025 יהב רוזן עיצוב פנים. כל הזכויות שמורות.
+        </div>
+
+        <div class="framer-1rzsoyy" data-framer-name="© 2024 Verdance. All rights reserved." style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;--extracted-r6o4lv:rgb(204, 204, 204);--framer-paragraph-spacing:0px;transform:none" data-framer-component-type="RichTextContainer">
+                                        <p style="--font-selector:R0Y7Sm9zdC1yZWd1bGFy;--framer-font-family:&quot;Jost&quot;, &quot;Jost Placeholder&quot;, sans-serif;--framer-font-size:27px;--framer-line-height:20px;--framer-text-color:var(--extracted-r6o4lv, rgb(204, 204, 204))" class="framer-text">
+                                            <!--$-->
+                                            <a class="framer-text framer-styles-preset-16kxpvj" data-styles-preset="Q3MFeHE35" href="https://www.instagram.com/lia.m_web/?igsh=Z2Frc3ZzeTZ2ZTZ1" target="_blank" rel="noopener">Built by Lia Mesika (click for more information)</a>
+                                            <!--/$-->
+                                        </p>
+                                    </div>
+    </footer>
+
+    <!-- ========================================
+         WHATSAPP FLOATING BUTTON
+    ======================================== -->
+    <a href="https://wa.me/972501234567" class="whatsapp-float" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+        </svg>
+    </a>
+
+    <!-- ========================================
+         JAVASCRIPT - ANIMATIONS & INTERACTIONS
+    ======================================== -->
+    <script>
+        // ========== HERO SLIDESHOW ==========
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.hero-slide');
+        const totalSlides = slides.length;
+
+        function nextSlide() {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (currentSlide + 1) % totalSlides;
+            slides[currentSlide].classList.add('active');
+        }
+
+        setInterval(nextSlide, 5000);
+
+        // ========== SCROLL ANIMATIONS ==========
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        const animatedElements = [
+            '.about-image-wrapper',
+            '.about-content',
+            '.expertise-header',
+            '.expertise-card',
+            '.showcase-header',
+            '.showcase-item',
+            '.reviews-header',
+            '.review-card',
+            '.gallery-header',
+            '.gallery-item',
+            '.faq-header',
+            '.faq-item'
+        ];
+
+        animatedElements.forEach(selector => {
+            document.querySelectorAll(selector).forEach(el => {
+                observer.observe(el);
+            });
+        });
+
+        // ========== SMOOTH SCROLL ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ========== PARALLAX EFFECT ON SCROLL ==========
+        let scrollPosition = 0;
+
+        window.addEventListener('scroll', () => {
+            scrollPosition = window.pageYOffset;
+
+            // Subtle parallax on hero
+            const heroSlides = document.querySelectorAll('.hero-slide img');
+            heroSlides.forEach(slide => {
+                slide.style.transform = `translateY(${scrollPosition * 0.3}px)`;
+            });
+        });
+
+        // ========== LAZY LOADING ENHANCEMENT ==========
+        if ('IntersectionObserver' in window) {
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+            const imageObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.src;
+                        imageObserver.unobserve(img);
+                    }
+                });
+            });
+
+            lazyImages.forEach(img => imageObserver.observe(img));
+        }
+
+        // ========== MOUSE MOVE EFFECTS ==========
+        const showcaseItems = document.querySelectorAll('.showcase-item');
+
+        showcaseItems.forEach(item => {
+            item.addEventListener('mousemove', (e) => {
+                const rect = item.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+
+                const divider = item.querySelector('.showcase-divider');
+                if (divider) {
+                    divider.style.left = `${x}%`;
+                }
+
+                const after = item.querySelector('.showcase-after');
+                if (after) {
+                    after.style.clipPath = `polygon(0 0, ${x}% 0, ${x}% 100%, 0 100%)`;
+                }
+            });
+
+            item.addEventListener('mouseleave', () => {
+                const divider = item.querySelector('.showcase-divider');
+                const after = item.querySelector('.showcase-after');
+
+                // Reset on leave
+                setTimeout(() => {
+                    if (divider) divider.style.left = '100%';
+                    if (after) after.style.clipPath = 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)';
+                }, 100);
+            });
+        });
+
+        // ========== FAQ ACCORDION ==========
+        const faqItems = document.querySelectorAll('.faq-item');
+
+        faqItems.forEach(item => {
+            const question = item.querySelector('.faq-question');
+
+            question.addEventListener('click', () => {
+                const isActive = item.classList.contains('active');
+
+                // Close all FAQ items
+                faqItems.forEach(faqItem => {
+                    faqItem.classList.remove('active');
+                });
+
+                // If it wasn't active, open it
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // ========== PERFORMANCE OPTIMIZATION ==========
+        // Reduce animations on low-performance devices
+        if (navigator.hardwareConcurrency < 4) {
+            document.body.style.setProperty('--animation-duration', '0.5s');
+        }
+    </script>
+
+</body>
+</html>
