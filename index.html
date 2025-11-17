@@ -1327,50 +1327,64 @@
                 padding: 45px 30px;
             }
 
-            /* Mobile Accordion for Expertise Cards */
-            .expertise-card {
-                cursor: pointer;
+            /* Mobile Carousel for Expertise Cards */
+            .expertise-grid {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+                gap: 25px;
+                padding-bottom: 60px;
                 position: relative;
-                padding-top: 50px;
             }
 
-            .expertise-icon {
-                margin-bottom: 20px;
+            .expertise-grid::-webkit-scrollbar {
+                display: none;
             }
 
-            .expertise-title {
-                font-size: 1.3rem;
-                margin-bottom: 0;
-                padding-left: 40px;
+            .expertise-card {
+                min-width: 85%;
+                scroll-snap-align: center;
+                flex-shrink: 0;
+                padding: 40px 30px;
             }
 
             .expertise-chevron {
-                display: flex;
-                position: absolute;
-                top: 35px;
-                left: 25px;
+                display: none;
             }
 
-            .expertise-card.accordion-active .expertise-chevron {
-                transform: rotate(180deg);
+            .expertise-title {
+                font-size: 1.4rem;
+                margin-bottom: 20px;
             }
 
             .expertise-description {
-                max-height: 0;
-                overflow: hidden;
-                opacity: 0;
-                transition: max-height 0.65s cubic-bezier(0.4, 0, 0.2, 1),
-                            opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                            margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-                margin-top: 0;
-                padding-top: 0;
+                font-size: 1rem;
+                line-height: 1.8;
             }
 
-            .expertise-card.accordion-active .expertise-description {
-                max-height: 600px;
-                opacity: 1;
-                margin-top: 25px;
-                padding-top: 5px;
+            /* Progress Bar Container */
+            .expertise-progress-container {
+                position: absolute;
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 80%;
+                max-width: 300px;
+                height: 3px;
+                background: rgba(200, 189, 177, 0.2);
+                border-radius: 2px;
+                overflow: hidden;
+            }
+
+            .expertise-progress-bar {
+                height: 100%;
+                background: var(--warm-gold);
+                width: 33.33%;
+                transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+                transform: translateX(0);
+                border-radius: 2px;
             }
 
             .about-image {
@@ -1459,8 +1473,8 @@
         /* Extra small mobile devices (360-480px) */
         @media (max-width: 480px) {
             .expertise-card {
-                padding: 35px 20px 35px 20px;
-                padding-top: 45px;
+                min-width: 90%;
+                padding: 35px 25px;
             }
 
             .expertise-icon {
@@ -1475,25 +1489,19 @@
             }
 
             .expertise-title {
-                font-size: 1.15rem;
-                padding-left: 35px;
+                font-size: 1.2rem;
                 line-height: 1.4;
-            }
-
-            .expertise-chevron {
-                top: 32px;
-                left: 20px;
-                width: 20px;
-                height: 20px;
+                margin-bottom: 18px;
             }
 
             .expertise-description {
                 font-size: 0.95rem;
-                line-height: 1.7;
+                line-height: 1.75;
             }
 
-            .expertise-card.accordion-active .expertise-description {
-                margin-top: 20px;
+            .expertise-progress-container {
+                width: 85%;
+                max-width: 250px;
             }
 
             .footer-designer-main {
@@ -1620,56 +1628,46 @@
                 <strong>התמחות</strong>
             </h2>
         </div>
-        <div class="expertise-grid">
-            <div class="expertise-card">
-                <div class="expertise-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
-                    </svg>
+        <div class="expertise-grid-wrapper" style="position: relative;">
+            <div class="expertise-grid">
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="expertise-title">דירות יוקרה</h3>
+                    <p class="expertise-description">
+                        עיצוב ותכנון דירות יוקרה הוא תהליך מורכב ומדויק, המשלב אסתטיקה ייחודית, פונקציונליות מתקדמת ושימוש בחומרי גלם איכותיים. הדגש הוא על יצירת חללים אלגנטיים, נקיים, נוחים ומרווחים.
+                    </p>
                 </div>
-                <h3 class="expertise-title">דירות יוקרה</h3>
-                <div class="expertise-chevron">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="expertise-title">חללים מסחריים</h3>
+                    <p class="expertise-description">
+                        תכנון קפדני כולל ניצול מיטבי של החלל, תאורה טבעית, שילוב טכנולוגיות חכמות ויצירת חוויה הרמונית ויוקרתית. התאמה אישית של ריהוט מעוצב ברמה הגבוהה ביותר.
+                    </p>
                 </div>
-                <p class="expertise-description">
-                    עיצוב ותכנון דירות יוקרה הוא תהליך מורכב ומדויק, המשלב אסתטיקה ייחודית, פונקציונליות מתקדמת ושימוש בחומרי גלם איכותיים. הדגש הוא על יצירת חללים אלגנטיים, נקיים, נוחים ומרווחים.
-                </p>
+                <div class="expertise-card">
+                    <div class="expertise-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
+                            <path d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="expertise-title">פרטים קטנים</h3>
+                    <p class="expertise-description">
+                        חומרים טבעיים כמו שיש, עץ וזכוכית, וגימורים מוקפדים מעניקים לחלל מראה מתוחכם ובלתי מתפשר. התוצאה היא חלל יוקרתי ומרשים המשקף את סגנון החיים של הלקוח בשילוב של נוחות, אלגנטיות והסתכלות על הפרטים הקטנים.
+                    </p>
+                </div>
             </div>
-            <div class="expertise-card">
-                <div class="expertise-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zM7 10h2v7H7zm4-3h2v10h-2zm4 6h2v4h-2z"/>
-                    </svg>
-                </div>
-                <h3 class="expertise-title">חללים מסחריים</h3>
-                <div class="expertise-chevron">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </div>
-                <p class="expertise-description">
-                    תכנון קפדני כולל ניצול מיטבי של החלל, תאורה טבעית, שילוב טכנולוגיות חכמות ויצירת חוויה הרמונית ויוקרתית. התאמה אישית של ריהוט מעוצב ברמה הגבוהה ביותר.
-                </p>
-            </div>
-            <div class="expertise-card">
-                <div class="expertise-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5-9h10v2H7z"/>
-                        <path d="M0 0h24v24H0z" fill="none"/>
-                        <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zm0 8c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"/>
-                    </svg>
-                </div>
-                <h3 class="expertise-title">פרטים קטנים</h3>
-                <div class="expertise-chevron">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
-                    </svg>
-                </div>
-                <p class="expertise-description">
-                    חומרים טבעיים כמו שיש, עץ וזכוכית, וגימורים מוקפדים מעניקים לחלל מראה מתוחכם ובלתי מתפשר. התוצאה היא חלל יוקרתי ומרשים המשקף את סגנון החיים של הלקוח בשילוב של נוחות, אלגנטיות והסתכלות על הפרטים הקטנים.
-                </p>
+            <div class="expertise-progress-container">
+                <div class="expertise-progress-bar"></div>
             </div>
         </div>
     </section>
@@ -2105,59 +2103,37 @@
             });
         });
 
-        // ========== EXPERTISE CARDS MOBILE ACCORDION ==========
-        function initExpertiseAccordion() {
-            // Only initialize on mobile (768px and below)
-            if (window.innerWidth <= 768) {
-                const expertiseCards = document.querySelectorAll('.expertise-card');
+        // ========== EXPERTISE CAROUSEL WITH PROGRESS BAR ==========
+        const expertiseGrid = document.querySelector('.expertise-grid');
+        const expertiseProgressBar = document.querySelector('.expertise-progress-bar');
 
-                expertiseCards.forEach(card => {
-                    // Remove any existing click listeners by cloning
-                    const newCard = card.cloneNode(true);
-                    card.parentNode.replaceChild(newCard, card);
-                });
+        function updateExpertiseProgress() {
+            if (window.innerWidth <= 768 && expertiseGrid && expertiseProgressBar) {
+                const scrollLeft = expertiseGrid.scrollLeft;
+                const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
+                const scrollPercentage = (scrollLeft / scrollWidth) * 100;
 
-                // Add click listeners to new cards
-                const cards = document.querySelectorAll('.expertise-card');
-                cards.forEach((card, index) => {
-                    card.addEventListener('click', () => {
-                        const isActive = card.classList.contains('accordion-active');
+                // Calculate position for the progress bar (slides it across)
+                const barWidth = 33.33; // Each card represents 33.33% of the total
+                const maxTranslate = 100 - barWidth; // Maximum translation is 66.67%
+                const translateX = (scrollPercentage / 100) * maxTranslate;
 
-                        // Close all cards
-                        cards.forEach(c => {
-                            c.classList.remove('accordion-active');
-                        });
-
-                        // If it wasn't active, open it
-                        if (!isActive) {
-                            card.classList.add('accordion-active');
-                        }
-                    });
-
-                    // Open the first card by default
-                    if (index === 0) {
-                        card.classList.add('accordion-active');
-                    }
-                });
-            } else {
-                // On desktop, remove accordion classes
-                document.querySelectorAll('.expertise-card').forEach(card => {
-                    card.classList.remove('accordion-active');
-                });
+                expertiseProgressBar.style.transform = `translateX(${translateX * 3}%)`;
             }
         }
 
-        // Initialize on load
-        initExpertiseAccordion();
+        // Update progress bar on scroll
+        if (expertiseGrid) {
+            expertiseGrid.addEventListener('scroll', updateExpertiseProgress, { passive: true });
 
-        // Re-initialize on resize
-        let resizeTimer;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(() => {
-                initExpertiseAccordion();
-            }, 250);
-        });
+            // Initial update
+            updateExpertiseProgress();
+
+            // Update on window resize
+            window.addEventListener('resize', () => {
+                updateExpertiseProgress();
+            });
+        }
 
         // ========== GALLERY SLIDESHOW ==========
         let currentGallerySlide = 0;
