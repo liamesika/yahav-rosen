@@ -438,6 +438,20 @@
             font-weight: 300;
         }
 
+        .expertise-chevron {
+            display: none;
+            width: 24px;
+            height: 24px;
+            margin-top: 15px;
+            transition: transform 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .expertise-chevron svg {
+            width: 100%;
+            height: 100%;
+            fill: var(--warm-gold);
+        }
+
         /* ========================================
            BEFORE/AFTER - PREMIUM INTERACTIVE
         ======================================== */
@@ -709,70 +723,114 @@
             color: var(--pure-white);
         }
 
-        .gallery-grid {
-            max-width: 1600px;
+        /* Gallery Slideshow Container */
+        .gallery-slideshow-container {
+            max-width: 1400px;
             margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 40px;
-        }
-
-        .gallery-item {
             position: relative;
-            height: 500px;
+            height: 600px;
             overflow: hidden;
-            cursor: pointer;
-            opacity: 0;
-            transform: scale(0.9) translateY(60px);
-            transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        .gallery-item.visible {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-
-        .gallery-item:nth-child(2) { transition-delay: 0.1s; }
-        .gallery-item:nth-child(3) { transition-delay: 0.2s; }
-        .gallery-item:nth-child(4) { transition-delay: 0.3s; }
-        .gallery-item:nth-child(5) { transition-delay: 0.4s; }
-        .gallery-item:nth-child(6) { transition-delay: 0.5s; }
-        .gallery-item:nth-child(7) { transition-delay: 0.6s; }
-        .gallery-item:nth-child(8) { transition-delay: 0.7s; }
-        .gallery-item:nth-child(9) { transition-delay: 0.8s; }
-
-        .gallery-item::before {
-            content: '';
+        .gallery-slide {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(
-                135deg,
-                rgba(212, 175, 55, 0) 0%,
-                rgba(212, 175, 55, 0.2) 100%
-            );
             opacity: 0;
-            transition: opacity 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+            transform: scale(1.05);
+            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
+                        transform 8s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 0;
+        }
+
+        .gallery-slide.active {
+            opacity: 1;
+            transform: scale(1);
             z-index: 1;
         }
 
-        .gallery-item:hover::before {
-            opacity: 1;
-        }
-
-        .gallery-item img {
+        .gallery-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-            filter: grayscale(0.2);
+            object-position: center;
         }
 
-        .gallery-item:hover img {
-            transform: scale(1.15);
-            filter: grayscale(0);
+        /* Navigation Arrows */
+        .gallery-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            opacity: 0;
+        }
+
+        .gallery-slideshow-container:hover .gallery-arrow {
+            opacity: 1;
+        }
+
+        .gallery-arrow:hover {
+            background: rgba(212, 175, 55, 0.9);
+            border-color: var(--warm-gold);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .gallery-arrow.prev {
+            left: 40px;
+        }
+
+        .gallery-arrow.next {
+            right: 40px;
+        }
+
+        .gallery-arrow svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--pure-white);
+        }
+
+        /* Pagination Dots */
+        .gallery-dots {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .gallery-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            border: 2px solid transparent;
+        }
+
+        .gallery-dot:hover {
+            background: rgba(255, 255, 255, 0.6);
+            transform: scale(1.2);
+        }
+
+        .gallery-dot.active {
+            background: var(--warm-gold);
+            border-color: var(--pure-white);
+            transform: scale(1.3);
         }
 
         /* ========================================
@@ -1075,10 +1133,46 @@
             color: var(--dark-charcoal);
         }
 
+        .footer-designer {
+            font-size: 1.1rem;
+            color: var(--soft-taupe);
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .footer-designer a {
+            color: var(--soft-taupe);
+            text-decoration: none;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-designer a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--warm-gold);
+            transition: width 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        }
+
+        .footer-designer a:hover {
+            color: var(--warm-gold);
+            letter-spacing: 3px;
+        }
+
+        .footer-designer a:hover::after {
+            width: 100%;
+        }
+
         .footer-copyright {
             font-size: 0.9rem;
             color: rgba(200, 189, 177, 0.5);
-            margin-top: 50px;
+            margin-top: 0;
             letter-spacing: 1px;
             font-weight: 300;
         }
@@ -1214,6 +1308,39 @@
                 padding: 45px 30px;
             }
 
+            /* Mobile Accordion for Expertise Cards */
+            .expertise-card {
+                cursor: pointer;
+                position: relative;
+            }
+
+            .expertise-chevron {
+                display: block;
+                position: absolute;
+                top: 30px;
+                left: 30px;
+            }
+
+            .expertise-card.accordion-active .expertise-chevron {
+                transform: rotate(180deg);
+            }
+
+            .expertise-description {
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transition: max-height 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+                            opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1),
+                            margin-top 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+                margin-top: 0;
+            }
+
+            .expertise-card.accordion-active .expertise-description {
+                max-height: 500px;
+                opacity: 1;
+                margin-top: 20px;
+            }
+
             .about-image {
                 height: 400px;
             }
@@ -1226,8 +1353,39 @@
                 height: 400px;
             }
 
-            .gallery-item {
-                height: 350px;
+            /* Gallery Slideshow Mobile */
+            .gallery-slideshow-container {
+                height: 400px;
+            }
+
+            .gallery-arrow {
+                width: 45px;
+                height: 45px;
+                opacity: 1;
+                background: rgba(255, 255, 255, 0.25);
+            }
+
+            .gallery-arrow.prev {
+                left: 15px;
+            }
+
+            .gallery-arrow.next {
+                right: 15px;
+            }
+
+            .gallery-arrow svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .gallery-dots {
+                bottom: 20px;
+                gap: 8px;
+            }
+
+            .gallery-dot {
+                width: 10px;
+                height: 10px;
             }
 
             .whatsapp-float {
@@ -1244,7 +1402,6 @@
 
             /* Mobile Touch Optimizations */
             .showcase-grid,
-            .gallery-grid,
             .reviews-grid {
                 display: flex;
                 overflow-x: auto;
@@ -1256,13 +1413,11 @@
             }
 
             .showcase-grid::-webkit-scrollbar,
-            .gallery-grid::-webkit-scrollbar,
             .reviews-grid::-webkit-scrollbar {
                 display: none;
             }
 
             .showcase-item,
-            .gallery-item,
             .review-card {
                 min-width: 90%;
                 scroll-snap-align: center;
@@ -1348,6 +1503,11 @@
                     </svg>
                 </div>
                 <h3 class="expertise-title">דירות יוקרה</h3>
+                <div class="expertise-chevron">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                    </svg>
+                </div>
                 <p class="expertise-description">
                     עיצוב ותכנון דירות יוקרה הוא תהליך מורכב ומדויק, המשלב אסתטיקה ייחודית, פונקציונליות מתקדמת ושימוש בחומרי גלם איכותיים. הדגש הוא על יצירת חללים אלגנטיים, נקיים, נוחים ומרווחים.
                 </p>
@@ -1359,6 +1519,11 @@
                     </svg>
                 </div>
                 <h3 class="expertise-title">חללים מסחריים</h3>
+                <div class="expertise-chevron">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                    </svg>
+                </div>
                 <p class="expertise-description">
                     תכנון קפדני כולל ניצול מיטבי של החלל, תאורה טבעית, שילוב טכנולוגיות חכמות ויצירת חוויה הרמונית ויוקרתית. התאמה אישית של ריהוט מעוצב ברמה הגבוהה ביותר.
                 </p>
@@ -1372,6 +1537,11 @@
                     </svg>
                 </div>
                 <h3 class="expertise-title">פרטים קטנים</h3>
+                <div class="expertise-chevron">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+                    </svg>
+                </div>
                 <p class="expertise-description">
                     חומרים טבעיים כמו שיש, עץ וזכוכית, וגימורים מוקפדים מעניקים לחלל מראה מתוחכם ובלתי מתפשר. התוצאה היא חלל יוקרתי ומרשים המשקף את סגנון החיים של הלקוח בשילוב של נוחות, אלגנטיות והסתכלות על הפרטים הקטנים.
                 </p>
@@ -1485,33 +1655,58 @@
                 <strong>השראה</strong>
             </h2>
         </div>
-        <div class="gallery-grid">
-            <div class="gallery-item">
+        <div class="gallery-slideshow-container">
+            <div class="gallery-slide active">
                 <img src="gallery/f2046164-ff54-4d43-8118-23f2712cccad.JPG" alt="פרויקט עיצוב 1" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/fe7861a3-94c6-4231-b2a2-3c4758bf01a2.JPG" alt="פרויקט עיצוב 2" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/8ad10f63-ca5a-4ed8-a8ab-d0ccd62a86ed.JPG" alt="פרויקט עיצוב 3" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/5b24d62d-f416-44ae-92dd-e800f75b5230.JPG" alt="פרויקט עיצוב 4" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/4fada26e-f2d4-4ff7-9f69-5dfed5d154f2.JPG" alt="פרויקט עיצוב 5" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/66f4d284-4c1a-4b5f-91bc-568884f16ab5.JPG" alt="פרויקט עיצוב 6" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/b796995c-ed77-4636-a8aa-3ef82159fdd5.JPG" alt="פרויקט עיצוב 7" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/58e4977b-46ab-4ca0-bd5a-3727ba66e926.JPG" alt="פרויקט עיצוב 8" loading="lazy">
             </div>
-            <div class="gallery-item">
+            <div class="gallery-slide">
                 <img src="gallery/e7465211-1084-4420-a82c-e24dd93744d0.JPG" alt="פרויקט עיצוב 9" loading="lazy">
+            </div>
+
+            <!-- Navigation Arrows -->
+            <div class="gallery-arrow prev">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
+                </svg>
+            </div>
+            <div class="gallery-arrow next">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                </svg>
+            </div>
+
+            <!-- Pagination Dots -->
+            <div class="gallery-dots">
+                <span class="gallery-dot active" data-slide="0"></span>
+                <span class="gallery-dot" data-slide="1"></span>
+                <span class="gallery-dot" data-slide="2"></span>
+                <span class="gallery-dot" data-slide="3"></span>
+                <span class="gallery-dot" data-slide="4"></span>
+                <span class="gallery-dot" data-slide="5"></span>
+                <span class="gallery-dot" data-slide="6"></span>
+                <span class="gallery-dot" data-slide="7"></span>
+                <span class="gallery-dot" data-slide="8"></span>
             </div>
         </div>
     </section>
@@ -1529,7 +1724,7 @@
             <p class="cta-description">
                 הפכו את הבית שלכם למקום שאתם באמת אוהבים. קבעו פגישת ייעוץ ללא התחייבות ובואו נתחיל לתכנן את החלל המושלם עבורכם.
             </p>
-            <a href="https://wa.me/972501234567" class="cta-button">צרו קשר עכשיו</a>
+            <a href="https://wa.me/972522411933" class="cta-button">צרו קשר עכשיו</a>
         </div>
     </section>
 
@@ -1616,35 +1811,20 @@
                 <text x="90" y="40" font-family="Heebo, sans-serif" font-size="24" font-weight="300" fill="#C8BDB1" text-anchor="middle">יהב רוזן</text>
             </svg>
         </div>
-        <!--<div class="footer-social">
-            <a href="#" class="social-icon" aria-label="Facebook">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-                    <path d="M9.198 21.5h4v-8.01h3.604l.396-3.98h-4V7.5a1 1 0 0 1 1-1h3v-4h-3a5 5 0 0 0-5 5v2.01h-2l-.396 3.98h2.396v8.01Z"/>
-                </svg>
-            </a>
-            <a href="#" class="social-icon" aria-label="Instagram">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-                    <path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
-                </svg>
-            </a>
-        </div> -->
+
+        <div class="footer-designer">
+            <a href="https://liamesika.co.il" target="_blank" rel="noopener">Built by Lia Mesika</a>
+        </div>
+
         <div class="footer-copyright">
             &copy; 2025 יהב רוזן עיצוב פנים. כל הזכויות שמורות.
         </div>
-
-        <div class="framer-1rzsoyy" data-framer-name="© 2024 Verdance. All rights reserved." style="outline:none;display:flex;flex-direction:column;justify-content:flex-start;flex-shrink:0;--extracted-r6o4lv:rgb(204, 204, 204);--framer-paragraph-spacing:0px;transform:none" data-framer-component-type="RichTextContainer">
-                                        <p style="--font-selector:R0Y7Sm9zdC1yZWd1bGFy;--framer-font-family:&quot;Jost&quot;, &quot;Jost Placeholder&quot;, sans-serif;--framer-font-size:27px;--framer-line-height:20px;--framer-text-color:var(--extracted-r6o4lv, rgb(204, 204, 204))" class="framer-text">
-                                            <!--$-->
-                                            <a class="framer-text framer-styles-preset-16kxpvj" data-styles-preset="Q3MFeHE35" href="https://www.instagram.com/lia.m_web/?igsh=Z2Frc3ZzeTZ2ZTZ1" target="_blank" rel="noopener">Built by Lia Mesika (click for more information)</a>
-                                            <!--/$-->
-                                        </p>
-                                    </div>
     </footer>
 
     <!-- ========================================
          WHATSAPP FLOATING BUTTON
     ======================================== -->
-    <a href="https://wa.me/972501234567" class="whatsapp-float" aria-label="WhatsApp">
+    <a href="https://wa.me/972522411933" class="whatsapp-float" aria-label="WhatsApp">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
         </svg>
@@ -1692,7 +1872,6 @@
             '.reviews-header',
             '.review-card',
             '.gallery-header',
-            '.gallery-item',
             '.faq-header',
             '.faq-item'
         ];
@@ -1797,6 +1976,148 @@
                 }
             });
         });
+
+        // ========== EXPERTISE CARDS MOBILE ACCORDION ==========
+        function initExpertiseAccordion() {
+            // Only initialize on mobile (768px and below)
+            if (window.innerWidth <= 768) {
+                const expertiseCards = document.querySelectorAll('.expertise-card');
+
+                expertiseCards.forEach(card => {
+                    // Remove any existing click listeners by cloning
+                    const newCard = card.cloneNode(true);
+                    card.parentNode.replaceChild(newCard, card);
+                });
+
+                // Add click listeners to new cards
+                document.querySelectorAll('.expertise-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const isActive = card.classList.contains('accordion-active');
+
+                        // Close all cards
+                        document.querySelectorAll('.expertise-card').forEach(c => {
+                            c.classList.remove('accordion-active');
+                        });
+
+                        // If it wasn't active, open it
+                        if (!isActive) {
+                            card.classList.add('accordion-active');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Initialize on load
+        initExpertiseAccordion();
+
+        // Re-initialize on resize
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                initExpertiseAccordion();
+            }, 250);
+        });
+
+        // ========== GALLERY SLIDESHOW ==========
+        let currentGallerySlide = 0;
+        const gallerySlides = document.querySelectorAll('.gallery-slide');
+        const galleryDots = document.querySelectorAll('.gallery-dot');
+        const totalGallerySlides = gallerySlides.length;
+        let galleryAutoplay;
+
+        function showGallerySlide(index) {
+            // Remove active class from all slides and dots
+            gallerySlides.forEach(slide => slide.classList.remove('active'));
+            galleryDots.forEach(dot => dot.classList.remove('active'));
+
+            // Add active class to current slide and dot
+            gallerySlides[index].classList.add('active');
+            galleryDots[index].classList.add('active');
+        }
+
+        function nextGallerySlide() {
+            currentGallerySlide = (currentGallerySlide + 1) % totalGallerySlides;
+            showGallerySlide(currentGallerySlide);
+        }
+
+        function prevGallerySlide() {
+            currentGallerySlide = (currentGallerySlide - 1 + totalGallerySlides) % totalGallerySlides;
+            showGallerySlide(currentGallerySlide);
+        }
+
+        function startGalleryAutoplay() {
+            galleryAutoplay = setInterval(nextGallerySlide, 4000);
+        }
+
+        function stopGalleryAutoplay() {
+            clearInterval(galleryAutoplay);
+        }
+
+        // Arrow navigation
+        document.querySelector('.gallery-arrow.prev').addEventListener('click', () => {
+            stopGalleryAutoplay();
+            prevGallerySlide();
+            startGalleryAutoplay();
+        });
+
+        document.querySelector('.gallery-arrow.next').addEventListener('click', () => {
+            stopGalleryAutoplay();
+            nextGallerySlide();
+            startGalleryAutoplay();
+        });
+
+        // Dot navigation
+        galleryDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                stopGalleryAutoplay();
+                currentGallerySlide = index;
+                showGallerySlide(currentGallerySlide);
+                startGalleryAutoplay();
+            });
+        });
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const galleryContainer = document.querySelector('.gallery-slideshow-container');
+
+        galleryContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        galleryContainer.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleGallerySwipe();
+        }, { passive: true });
+
+        function handleGallerySwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                stopGalleryAutoplay();
+                if (diff > 0) {
+                    // Swipe left - next slide
+                    nextGallerySlide();
+                } else {
+                    // Swipe right - previous slide
+                    prevGallerySlide();
+                }
+                startGalleryAutoplay();
+            }
+        }
+
+        // Start autoplay on page load
+        startGalleryAutoplay();
+
+        // Pause autoplay when user hovers (desktop only)
+        if (window.innerWidth > 768) {
+            galleryContainer.addEventListener('mouseenter', stopGalleryAutoplay);
+            galleryContainer.addEventListener('mouseleave', startGalleryAutoplay);
+        }
 
         // ========== PERFORMANCE OPTIMIZATION ==========
         // Reduce animations on low-performance devices
