@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יהב רוזן - מעצבת פנים | עיצוב פנים </title>
+    <title>יהב רוזן - מעצבת פנים</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700;800&family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -2122,24 +2122,19 @@
         const expertiseCards = document.querySelectorAll('.expertise-card');
 
         function updateExpertiseDots() {
-            if (window.innerWidth <= 768 && expertiseGrid && expertiseDots.length > 0) {
+            if (window.innerWidth <= 768 && expertiseGrid && expertiseDots.length > 0 && expertiseCards.length > 0) {
                 const scrollLeft = expertiseGrid.scrollLeft;
-                const cardWidth = expertiseCards[0]?.offsetWidth || 0;
-                const gap = 20; // Gap between cards
+                const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
 
-                // Calculate which card is most centered in view
-                const centerOffset = expertiseGrid.clientWidth / 2;
+                // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-
-                for (let i = 0; i < expertiseCards.length; i++) {
-                    const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
-                    const distance = Math.abs(scrollLeft + centerOffset - cardCenter);
-                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((cardWidth + gap) * activeIndex + cardWidth / 2));
-
-                    if (distance < prevDistance) {
-                        activeIndex = i;
-                    }
+                if (scrollWidth > 0) {
+                    const scrollPercent = scrollLeft / scrollWidth;
+                    activeIndex = Math.round(scrollPercent * (expertiseCards.length - 1));
                 }
+
+                // Clamp to valid range
+                activeIndex = Math.max(0, Math.min(activeIndex, expertiseCards.length - 1));
 
                 // Update active dot
                 expertiseDots.forEach((dot, index) => {
@@ -2152,9 +2147,8 @@
         expertiseDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && expertiseGrid && expertiseCards[index]) {
-                    const cardWidth = expertiseCards[0].offsetWidth;
-                    const gap = 20;
-                    const scrollTo = (cardWidth + gap) * index;
+                    const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
+                    const scrollTo = (scrollWidth / (expertiseCards.length - 1)) * index;
 
                     expertiseGrid.scrollTo({
                         left: scrollTo,
@@ -2184,23 +2178,19 @@
         const reviewCards = document.querySelectorAll('.review-card');
 
         function updateReviewsDots() {
-            if (window.innerWidth <= 768 && reviewsGrid && reviewsDots.length > 0) {
+            if (window.innerWidth <= 768 && reviewsGrid && reviewsDots.length > 0 && reviewCards.length > 0) {
                 const scrollLeft = reviewsGrid.scrollLeft;
-                const cardWidth = reviewCards[0]?.offsetWidth || 0;
-                const gap = 30;
+                const scrollWidth = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
 
-                const centerOffset = reviewsGrid.clientWidth / 2;
+                // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-
-                for (let i = 0; i < reviewCards.length; i++) {
-                    const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
-                    const distance = Math.abs(scrollLeft + centerOffset - cardCenter);
-                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((cardWidth + gap) * activeIndex + cardWidth / 2));
-
-                    if (distance < prevDistance) {
-                        activeIndex = i;
-                    }
+                if (scrollWidth > 0) {
+                    const scrollPercent = scrollLeft / scrollWidth;
+                    activeIndex = Math.round(scrollPercent * (reviewCards.length - 1));
                 }
+
+                // Clamp to valid range
+                activeIndex = Math.max(0, Math.min(activeIndex, reviewCards.length - 1));
 
                 reviewsDots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === activeIndex);
@@ -2211,9 +2201,8 @@
         reviewsDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && reviewsGrid && reviewCards[index]) {
-                    const cardWidth = reviewCards[0].offsetWidth;
-                    const gap = 30;
-                    const scrollTo = (cardWidth + gap) * index;
+                    const scrollWidth = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
+                    const scrollTo = (scrollWidth / (reviewCards.length - 1)) * index;
 
                     reviewsGrid.scrollTo({
                         left: scrollTo,
@@ -2235,23 +2224,19 @@
         const showcaseItemsAll = document.querySelectorAll('.showcase-item');
 
         function updateShowcaseDots() {
-            if (window.innerWidth <= 768 && showcaseGrid && showcaseDots.length > 0) {
+            if (window.innerWidth <= 768 && showcaseGrid && showcaseDots.length > 0 && showcaseItemsAll.length > 0) {
                 const scrollLeft = showcaseGrid.scrollLeft;
-                const itemWidth = showcaseItemsAll[0]?.offsetWidth || 0;
-                const gap = 30;
+                const scrollWidth = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
 
-                const centerOffset = showcaseGrid.clientWidth / 2;
+                // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-
-                for (let i = 0; i < showcaseItemsAll.length; i++) {
-                    const itemCenter = (itemWidth + gap) * i + itemWidth / 2;
-                    const distance = Math.abs(scrollLeft + centerOffset - itemCenter);
-                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((itemWidth + gap) * activeIndex + itemWidth / 2));
-
-                    if (distance < prevDistance) {
-                        activeIndex = i;
-                    }
+                if (scrollWidth > 0) {
+                    const scrollPercent = scrollLeft / scrollWidth;
+                    activeIndex = Math.round(scrollPercent * (showcaseItemsAll.length - 1));
                 }
+
+                // Clamp to valid range
+                activeIndex = Math.max(0, Math.min(activeIndex, showcaseItemsAll.length - 1));
 
                 showcaseDots.forEach((dot, index) => {
                     dot.classList.toggle('active', index === activeIndex);
@@ -2262,9 +2247,8 @@
         showcaseDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && showcaseGrid && showcaseItemsAll[index]) {
-                    const itemWidth = showcaseItemsAll[0].offsetWidth;
-                    const gap = 30;
-                    const scrollTo = (itemWidth + gap) * index;
+                    const scrollWidth = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
+                    const scrollTo = (scrollWidth / (showcaseItemsAll.length - 1)) * index;
 
                     showcaseGrid.scrollTo({
                         left: scrollTo,
