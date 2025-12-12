@@ -2123,13 +2123,15 @@
 
         function updateExpertiseDots() {
             if (window.innerWidth <= 768 && expertiseGrid && expertiseDots.length > 0 && expertiseCards.length > 0) {
-                const scrollLeft = expertiseGrid.scrollLeft;
-                const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
+                // Use absolute scroll position for RTL support
+                const scrollLeft = Math.abs(expertiseGrid.scrollLeft);
+                const maxScroll = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
 
                 // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-                if (scrollWidth > 0) {
-                    const scrollPercent = scrollLeft / scrollWidth;
+                if (maxScroll > 0) {
+                    const scrollPercent = scrollLeft / maxScroll;
+                    // In RTL, first card is on right (scroll 0), last on left (scroll max)
                     activeIndex = Math.round(scrollPercent * (expertiseCards.length - 1));
                 }
 
@@ -2147,11 +2149,14 @@
         expertiseDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && expertiseGrid && expertiseCards[index]) {
-                    const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
-                    const scrollTo = (scrollWidth / (expertiseCards.length - 1)) * index;
+                    const maxScroll = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
+                    // Calculate scroll position for this index
+                    const scrollTo = (maxScroll / (expertiseCards.length - 1)) * index;
 
+                    // For RTL, we need negative scroll values in some browsers
+                    const isRTL = document.documentElement.dir === 'rtl';
                     expertiseGrid.scrollTo({
-                        left: scrollTo,
+                        left: isRTL ? -scrollTo : scrollTo,
                         behavior: 'smooth'
                     });
                 }
@@ -2179,13 +2184,14 @@
 
         function updateReviewsDots() {
             if (window.innerWidth <= 768 && reviewsGrid && reviewsDots.length > 0 && reviewCards.length > 0) {
-                const scrollLeft = reviewsGrid.scrollLeft;
-                const scrollWidth = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
+                // Use absolute scroll position for RTL support
+                const scrollLeft = Math.abs(reviewsGrid.scrollLeft);
+                const maxScroll = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
 
                 // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-                if (scrollWidth > 0) {
-                    const scrollPercent = scrollLeft / scrollWidth;
+                if (maxScroll > 0) {
+                    const scrollPercent = scrollLeft / maxScroll;
                     activeIndex = Math.round(scrollPercent * (reviewCards.length - 1));
                 }
 
@@ -2201,11 +2207,12 @@
         reviewsDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && reviewsGrid && reviewCards[index]) {
-                    const scrollWidth = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
-                    const scrollTo = (scrollWidth / (reviewCards.length - 1)) * index;
+                    const maxScroll = reviewsGrid.scrollWidth - reviewsGrid.clientWidth;
+                    const scrollTo = (maxScroll / (reviewCards.length - 1)) * index;
 
+                    const isRTL = document.documentElement.dir === 'rtl';
                     reviewsGrid.scrollTo({
-                        left: scrollTo,
+                        left: isRTL ? -scrollTo : scrollTo,
                         behavior: 'smooth'
                     });
                 }
@@ -2225,13 +2232,14 @@
 
         function updateShowcaseDots() {
             if (window.innerWidth <= 768 && showcaseGrid && showcaseDots.length > 0 && showcaseItemsAll.length > 0) {
-                const scrollLeft = showcaseGrid.scrollLeft;
-                const scrollWidth = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
+                // Use absolute scroll position for RTL support
+                const scrollLeft = Math.abs(showcaseGrid.scrollLeft);
+                const maxScroll = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
 
                 // Calculate active index based on scroll percentage
                 let activeIndex = 0;
-                if (scrollWidth > 0) {
-                    const scrollPercent = scrollLeft / scrollWidth;
+                if (maxScroll > 0) {
+                    const scrollPercent = scrollLeft / maxScroll;
                     activeIndex = Math.round(scrollPercent * (showcaseItemsAll.length - 1));
                 }
 
@@ -2247,11 +2255,12 @@
         showcaseDots.forEach((dot, index) => {
             dot.addEventListener('click', () => {
                 if (window.innerWidth <= 768 && showcaseGrid && showcaseItemsAll[index]) {
-                    const scrollWidth = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
-                    const scrollTo = (scrollWidth / (showcaseItemsAll.length - 1)) * index;
+                    const maxScroll = showcaseGrid.scrollWidth - showcaseGrid.clientWidth;
+                    const scrollTo = (maxScroll / (showcaseItemsAll.length - 1)) * index;
 
+                    const isRTL = document.documentElement.dir === 'rtl';
                     showcaseGrid.scrollTo({
-                        left: scrollTo,
+                        left: isRTL ? -scrollTo : scrollTo,
                         behavior: 'smooth'
                     });
                 }
