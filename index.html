@@ -1482,6 +1482,64 @@
                 min-width: 90%;
                 scroll-snap-align: center;
             }
+
+            /* Progress Dots for Reviews */
+            .reviews-progress-container {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                align-items: center;
+                margin-top: 30px;
+            }
+
+            .reviews-progress-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(200, 189, 177, 0.3);
+                border: 1px solid rgba(200, 189, 177, 0.5);
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+
+            .reviews-progress-dot:hover {
+                background: rgba(200, 189, 177, 0.5);
+            }
+
+            .reviews-progress-dot.active {
+                background: var(--warm-gold);
+                border-color: var(--warm-gold);
+                transform: scale(1.2);
+            }
+
+            /* Progress Dots for Before/After */
+            .showcase-progress-container {
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                align-items: center;
+                margin-top: 30px;
+            }
+
+            .showcase-progress-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(200, 189, 177, 0.3);
+                border: 1px solid rgba(200, 189, 177, 0.5);
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+
+            .showcase-progress-dot:hover {
+                background: rgba(200, 189, 177, 0.5);
+            }
+
+            .showcase-progress-dot.active {
+                background: var(--warm-gold);
+                border-color: var(--warm-gold);
+                transform: scale(1.2);
+            }
         }
 
         /* Extra small mobile devices (360-480px) */
@@ -1723,6 +1781,12 @@
                 <span class="showcase-label after-label">אחרי – לחצו לראות לפני</span>
             </div>
         </div>
+        <div class="showcase-progress-container">
+            <div class="showcase-progress-dot active" data-index="0"></div>
+            <div class="showcase-progress-dot" data-index="1"></div>
+            <div class="showcase-progress-dot" data-index="2"></div>
+            <div class="showcase-progress-dot" data-index="3"></div>
+        </div>
     </section>
 
     <!-- ========================================
@@ -1758,6 +1822,11 @@
                 </p>
                 <div class="review-author">מיכל אברהם, הרצליה</div>
             </div>
+        </div>
+        <div class="reviews-progress-container">
+            <div class="reviews-progress-dot active" data-index="0"></div>
+            <div class="reviews-progress-dot" data-index="1"></div>
+            <div class="reviews-progress-dot" data-index="2"></div>
         </div>
     </section>
 
@@ -2108,6 +2177,108 @@
             });
         }
 
+
+        // ========== REVIEWS CAROUSEL WITH PROGRESS DOTS ==========
+        const reviewsGrid = document.querySelector('.reviews-grid');
+        const reviewsDots = document.querySelectorAll('.reviews-progress-dot');
+        const reviewCards = document.querySelectorAll('.review-card');
+
+        function updateReviewsDots() {
+            if (window.innerWidth <= 768 && reviewsGrid && reviewsDots.length > 0) {
+                const scrollLeft = reviewsGrid.scrollLeft;
+                const cardWidth = reviewCards[0]?.offsetWidth || 0;
+                const gap = 30;
+
+                const centerOffset = reviewsGrid.clientWidth / 2;
+                let activeIndex = 0;
+
+                for (let i = 0; i < reviewCards.length; i++) {
+                    const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
+                    const distance = Math.abs(scrollLeft + centerOffset - cardCenter);
+                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((cardWidth + gap) * activeIndex + cardWidth / 2));
+
+                    if (distance < prevDistance) {
+                        activeIndex = i;
+                    }
+                }
+
+                reviewsDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            }
+        }
+
+        reviewsDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && reviewsGrid && reviewCards[index]) {
+                    const cardWidth = reviewCards[0].offsetWidth;
+                    const gap = 30;
+                    const scrollTo = (cardWidth + gap) * index;
+
+                    reviewsGrid.scrollTo({
+                        left: scrollTo,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        if (reviewsGrid) {
+            reviewsGrid.addEventListener('scroll', updateReviewsDots, { passive: true });
+            updateReviewsDots();
+            window.addEventListener('resize', updateReviewsDots);
+        }
+
+        // ========== BEFORE/AFTER CAROUSEL WITH PROGRESS DOTS ==========
+        const showcaseGrid = document.querySelector('.showcase-grid');
+        const showcaseDots = document.querySelectorAll('.showcase-progress-dot');
+        const showcaseItemsAll = document.querySelectorAll('.showcase-item');
+
+        function updateShowcaseDots() {
+            if (window.innerWidth <= 768 && showcaseGrid && showcaseDots.length > 0) {
+                const scrollLeft = showcaseGrid.scrollLeft;
+                const itemWidth = showcaseItemsAll[0]?.offsetWidth || 0;
+                const gap = 30;
+
+                const centerOffset = showcaseGrid.clientWidth / 2;
+                let activeIndex = 0;
+
+                for (let i = 0; i < showcaseItemsAll.length; i++) {
+                    const itemCenter = (itemWidth + gap) * i + itemWidth / 2;
+                    const distance = Math.abs(scrollLeft + centerOffset - itemCenter);
+                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((itemWidth + gap) * activeIndex + itemWidth / 2));
+
+                    if (distance < prevDistance) {
+                        activeIndex = i;
+                    }
+                }
+
+                showcaseDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
+            }
+        }
+
+        showcaseDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && showcaseGrid && showcaseItemsAll[index]) {
+                    const itemWidth = showcaseItemsAll[0].offsetWidth;
+                    const gap = 30;
+                    const scrollTo = (itemWidth + gap) * index;
+
+                    showcaseGrid.scrollTo({
+                        left: scrollTo,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        if (showcaseGrid) {
+            showcaseGrid.addEventListener('scroll', updateShowcaseDots, { passive: true });
+            updateShowcaseDots();
+            window.addEventListener('resize', updateShowcaseDots);
+        }
 
         // ========== PERFORMANCE OPTIMIZATION ==========
         // Reduce animations on low-performance devices
