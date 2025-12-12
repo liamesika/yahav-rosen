@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>יהב רוזן - מעצבת פנים | עיצוב פנים מודרני</title>
+    <title>יהב רוזן - מעצבת פנים | עיצוב פנים </title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@200;300;400;500;600;700;800&family=Assistant:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -453,7 +453,7 @@
         }
 
         /* ========================================
-           BEFORE/AFTER - PREMIUM INTERACTIVE
+           BEFORE/AFTER - TAP TO CHANGE
         ======================================== */
 
         .showcase-section {
@@ -518,6 +518,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            transition: opacity 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .showcase-before img,
@@ -525,71 +526,57 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
         .showcase-after {
-            clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-            transition: clip-path 1s cubic-bezier(0.22, 0.61, 0.36, 1);
+            opacity: 0;
         }
 
-        .showcase-item:hover .showcase-after {
-            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        .showcase-item.showing-after .showcase-after {
+            opacity: 1;
         }
 
-        .showcase-item:hover img {
-            transform: scale(1.08);
-        }
-
-        .showcase-divider {
-            position: absolute;
-            top: 0;
-            left: 100%;
-            width: 3px;
-            height: 100%;
-            background: var(--pure-white);
-            z-index: 10;
-            transition: left 1s cubic-bezier(0.22, 0.61, 0.36, 1);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
-        }
-
-        .showcase-item:hover .showcase-divider {
-            left: 50%;
+        .showcase-item.showing-after .showcase-before {
+            opacity: 0;
         }
 
         .showcase-label {
             position: absolute;
             bottom: 40px;
-            padding: 15px 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 18px 40px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             font-weight: 500;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             z-index: 20;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
             transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         .showcase-label.before-label {
-            right: 40px;
-            transform: translateY(0);
+            display: block;
         }
 
         .showcase-label.after-label {
-            left: 40px;
-            transform: translateY(150%);
-            opacity: 0;
+            display: none;
         }
 
-        .showcase-item:hover .showcase-label.before-label {
-            transform: translateY(150%);
-            opacity: 0;
+        .showcase-item.showing-after .showcase-label.before-label {
+            display: none;
         }
 
-        .showcase-item:hover .showcase-label.after-label {
-            transform: translateY(0);
-            opacity: 1;
+        .showcase-item.showing-after .showcase-label.after-label {
+            display: block;
+        }
+
+        .showcase-item:active .showcase-label {
+            transform: translateX(-50%) scale(0.98);
         }
 
         /* ========================================
@@ -630,6 +617,7 @@
             opacity: 0;
             transform: translateY(60px);
             position: relative;
+            text-align: center;
         }
 
         .review-card::before {
@@ -723,114 +711,119 @@
             color: var(--pure-white);
         }
 
-        /* Gallery Slideshow Container */
-        .gallery-slideshow-container {
+        /* Gallery Grid Container */
+        .gallery-container {
             max-width: 1400px;
             margin: 0 auto;
-            position: relative;
-            height: 600px;
-            overflow: hidden;
         }
 
-        .gallery-slide {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .gallery-image-full {
             width: 100%;
-            height: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            position: relative;
             opacity: 0;
-            transform: scale(1.05);
-            transition: opacity 1.5s cubic-bezier(0.4, 0, 0.2, 1),
-                        transform 8s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        .gallery-slide.active {
+        .gallery-image-full.visible {
             opacity: 1;
-            transform: scale(1);
-            z-index: 1;
+            transform: translateY(0);
         }
 
-        .gallery-slide img {
+        .gallery-image-full img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center;
+            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        /* Navigation Arrows */
-        .gallery-arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 10;
-            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+        .gallery-image-full:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-grid-two {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-image-half {
+            height: 400px;
+            overflow: hidden;
+            position: relative;
             opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        .gallery-slideshow-container:hover .gallery-arrow {
+        .gallery-image-half.visible {
             opacity: 1;
+            transform: translateY(0);
         }
 
-        .gallery-arrow:hover {
-            background: rgba(212, 175, 55, 0.9);
-            border-color: var(--warm-gold);
-            transform: translateY(-50%) scale(1.1);
+        .gallery-image-half:nth-child(2) {
+            transition-delay: 0.15s;
         }
 
-        .gallery-arrow.prev {
-            left: 40px;
+        .gallery-image-half img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
         }
 
-        .gallery-arrow.next {
-            right: 40px;
+        .gallery-image-half:hover img {
+            transform: scale(1.05);
         }
 
-        .gallery-arrow svg {
-            width: 24px;
-            height: 24px;
-            fill: var(--pure-white);
+        .gallery-see-more {
+            text-align: center;
+            margin-top: 60px;
         }
 
-        /* Pagination Dots */
-        .gallery-dots {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 12px;
-            z-index: 10;
-        }
-
-        .gallery-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.3);
+        .see-more-button {
+            display: inline-block;
+            padding: 20px 50px;
+            background: transparent;
+            color: var(--pure-white);
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: 2px solid var(--warm-gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
-            border: 2px solid transparent;
         }
 
-        .gallery-dot:hover {
-            background: rgba(255, 255, 255, 0.6);
-            transform: scale(1.2);
-        }
-
-        .gallery-dot.active {
+        .see-more-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
             background: var(--warm-gold);
-            border-color: var(--pure-white);
-            transform: scale(1.3);
+            transition: left 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+            z-index: -1;
+        }
+
+        .see-more-button:hover {
+            color: var(--dark-charcoal);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(212, 175, 55, 0.3);
+        }
+
+        .see-more-button:hover::before {
+            left: 0;
         }
 
         /* ========================================
@@ -1386,27 +1379,36 @@
                 hyphens: auto;
             }
 
-            /* Progress Bar Container */
+            /* Progress Dots Container */
             .expertise-progress-container {
                 position: absolute;
                 bottom: 20px;
                 left: 50%;
                 transform: translateX(-50%);
-                width: 70%;
-                max-width: 280px;
-                height: 3px;
-                background: rgba(200, 189, 177, 0.2);
-                border-radius: 2px;
-                overflow: hidden;
+                display: flex;
+                gap: 12px;
+                justify-content: center;
+                align-items: center;
             }
 
-            .expertise-progress-bar {
-                height: 100%;
+            .expertise-progress-dot {
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background: rgba(200, 189, 177, 0.3);
+                border: 1px solid rgba(200, 189, 177, 0.5);
+                cursor: pointer;
+                transition: all 0.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+            }
+
+            .expertise-progress-dot:hover {
+                background: rgba(200, 189, 177, 0.5);
+            }
+
+            .expertise-progress-dot.active {
                 background: var(--warm-gold);
-                width: 33.33%;
-                transition: transform 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
-                transform: translateX(0);
-                border-radius: 2px;
+                border-color: var(--warm-gold);
+                transform: scale(1.2);
             }
 
             .about-image {
@@ -1421,39 +1423,29 @@
                 height: 400px;
             }
 
-            /* Gallery Slideshow Mobile */
-            .gallery-slideshow-container {
-                height: 400px;
+            /* Gallery Grid Mobile */
+            .gallery-image-full {
+                height: 350px;
+                margin-bottom: 20px;
             }
 
-            .gallery-arrow {
-                width: 45px;
-                height: 45px;
-                opacity: 1;
-                background: rgba(255, 255, 255, 0.25);
+            .gallery-grid-two {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                margin-bottom: 20px;
             }
 
-            .gallery-arrow.prev {
-                left: 15px;
+            .gallery-image-half {
+                height: 300px;
             }
 
-            .gallery-arrow.next {
-                right: 15px;
+            .gallery-see-more {
+                margin-top: 40px;
             }
 
-            .gallery-arrow svg {
-                width: 18px;
-                height: 18px;
-            }
-
-            .gallery-dots {
-                bottom: 20px;
-                gap: 8px;
-            }
-
-            .gallery-dot {
-                width: 10px;
-                height: 10px;
+            .see-more-button {
+                padding: 16px 40px;
+                font-size: 0.9rem;
             }
 
             .whatsapp-float {
@@ -1547,36 +1539,17 @@
                 letter-spacing: 1.5px;
             }
 
-            .gallery-slideshow-container {
-                height: 350px;
+            .gallery-image-full {
+                height: 300px;
             }
 
-            .gallery-arrow {
-                width: 40px;
-                height: 40px;
+            .gallery-image-half {
+                height: 250px;
             }
 
-            .gallery-arrow.prev {
-                left: 10px;
-            }
-
-            .gallery-arrow.next {
-                right: 10px;
-            }
-
-            .gallery-arrow svg {
-                width: 16px;
-                height: 16px;
-            }
-
-            .gallery-dots {
-                bottom: 15px;
-                gap: 6px;
-            }
-
-            .gallery-dot {
-                width: 8px;
-                height: 8px;
+            .see-more-button {
+                padding: 14px 35px;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -1621,7 +1594,7 @@
         <div class="about-container">
             <div class="about-image-wrapper">
                 <div class="about-image">
-                    <img src="gallery/4fada26e-f2d4-4ff7-9f69-5dfed5d154f2.JPG" alt="יהב רוזן - מעצבת פנים" loading="lazy">
+                    <img src="gallery/66f4d284-4c1a-4b5f-91bc-568884f16ab5.JPG" alt="יהב רוזן - מעצבת פנים" loading="lazy">
                 </div>
             </div>
             <div class="about-content">
@@ -1690,7 +1663,9 @@
                 </div>
             </div>
             <div class="expertise-progress-container">
-                <div class="expertise-progress-bar"></div>
+                <div class="expertise-progress-dot active" data-index="0"></div>
+                <div class="expertise-progress-dot" data-index="1"></div>
+                <div class="expertise-progress-dot" data-index="2"></div>
             </div>
         </div>
     </section>
@@ -1714,9 +1689,8 @@
                 <div class="showcase-after">
                     <img src="before-after/after1.JPG" alt="אחרי" loading="lazy">
                 </div>
-                <div class="showcase-divider"></div>
-                <span class="showcase-label before-label">לפני</span>
-                <span class="showcase-label after-label">אחרי</span>
+                <span class="showcase-label before-label">לפני – לחצו לראות אחרי</span>
+                <span class="showcase-label after-label">אחרי – לחצו לראות לפני</span>
             </div>
             <div class="showcase-item">
                 <div class="showcase-before">
@@ -1725,9 +1699,8 @@
                 <div class="showcase-after">
                     <img src="before-after/after2.JPG" alt="אחרי" loading="lazy">
                 </div>
-                <div class="showcase-divider"></div>
-                <span class="showcase-label before-label">לפני</span>
-                <span class="showcase-label after-label">אחרי</span>
+                <span class="showcase-label before-label">לפני – לחצו לראות אחרי</span>
+                <span class="showcase-label after-label">אחרי – לחצו לראות לפני</span>
             </div>
             <div class="showcase-item">
                 <div class="showcase-before">
@@ -1736,9 +1709,8 @@
                 <div class="showcase-after">
                     <img src="before-after/after3.JPG" alt="אחרי" loading="lazy">
                 </div>
-                <div class="showcase-divider"></div>
-                <span class="showcase-label before-label">לפני</span>
-                <span class="showcase-label after-label">אחרי</span>
+                <span class="showcase-label before-label">לפני – לחצו לראות אחרי</span>
+                <span class="showcase-label after-label">אחרי – לחצו לראות לפני</span>
             </div>
             <div class="showcase-item">
                 <div class="showcase-before">
@@ -1747,9 +1719,8 @@
                 <div class="showcase-after">
                     <img src="before-after/after4.JPG" alt="אחרי" loading="lazy">
                 </div>
-                <div class="showcase-divider"></div>
-                <span class="showcase-label before-label">לפני</span>
-                <span class="showcase-label after-label">אחרי</span>
+                <span class="showcase-label before-label">לפני – לחצו לראות אחרי</span>
+                <span class="showcase-label after-label">אחרי – לחצו לראות לפני</span>
             </div>
         </div>
     </section>
@@ -1801,58 +1772,30 @@
                 <strong>השראה</strong>
             </h2>
         </div>
-        <div class="gallery-slideshow-container">
-            <div class="gallery-slide active">
+        <div class="gallery-container">
+            <!-- First full-width image -->
+            <div class="gallery-image-full">
                 <img src="gallery/f2046164-ff54-4d43-8118-23f2712cccad.JPG" alt="פרויקט עיצוב 1" loading="lazy">
             </div>
-            <div class="gallery-slide">
-                <img src="gallery/fe7861a3-94c6-4231-b2a2-3c4758bf01a2.JPG" alt="פרויקט עיצוב 2" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/8ad10f63-ca5a-4ed8-a8ab-d0ccd62a86ed.JPG" alt="פרויקט עיצוב 3" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/5b24d62d-f416-44ae-92dd-e800f75b5230.JPG" alt="פרויקט עיצוב 4" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/4fada26e-f2d4-4ff7-9f69-5dfed5d154f2.JPG" alt="פרויקט עיצוב 5" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/66f4d284-4c1a-4b5f-91bc-568884f16ab5.JPG" alt="פרויקט עיצוב 6" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/b796995c-ed77-4636-a8aa-3ef82159fdd5.JPG" alt="פרויקט עיצוב 7" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/58e4977b-46ab-4ca0-bd5a-3727ba66e926.JPG" alt="פרויקט עיצוב 8" loading="lazy">
-            </div>
-            <div class="gallery-slide">
-                <img src="gallery/e7465211-1084-4420-a82c-e24dd93744d0.JPG" alt="פרויקט עיצוב 9" loading="lazy">
+
+            <!-- Two images in grid -->
+            <div class="gallery-grid-two">
+                <div class="gallery-image-half">
+                    <img src="gallery/8ad10f63-ca5a-4ed8-a8ab-d0ccd62a86ed.JPG" alt="פרויקט עיצוב 2" loading="lazy">
+                </div>
+                <div class="gallery-image-half">
+                    <img src="gallery/5b24d62d-f416-44ae-92dd-e800f75b5230.JPG" alt="פרויקט עיצוב 3" loading="lazy">
+                </div>
             </div>
 
-            <!-- Navigation Arrows -->
-            <div class="gallery-arrow prev">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/>
-                </svg>
-            </div>
-            <div class="gallery-arrow next">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
-                </svg>
+            <!-- Second full-width image -->
+            <div class="gallery-image-full">
+                <img src="gallery/fe7861a3-94c6-4231-b2a2-3c4758bf01a2.JPG" alt="פרויקט עיצוב 4" loading="lazy">
             </div>
 
-            <!-- Pagination Dots -->
-            <div class="gallery-dots">
-                <span class="gallery-dot active" data-slide="0"></span>
-                <span class="gallery-dot" data-slide="1"></span>
-                <span class="gallery-dot" data-slide="2"></span>
-                <span class="gallery-dot" data-slide="3"></span>
-                <span class="gallery-dot" data-slide="4"></span>
-                <span class="gallery-dot" data-slide="5"></span>
-                <span class="gallery-dot" data-slide="6"></span>
-                <span class="gallery-dot" data-slide="7"></span>
-                <span class="gallery-dot" data-slide="8"></span>
+            <!-- See More Work Button -->
+            <div class="gallery-see-more">
+                <a href="https://wa.me/972522411933?text=היי%20יהב,%20אשמח%20לראות%20עוד%20עבודות%20שלך" class="see-more-button">צפה בעוד עבודות</a>
             </div>
         </div>
     </section>
@@ -2021,6 +1964,8 @@
             '.reviews-header',
             '.review-card',
             '.gallery-header',
+            '.gallery-image-full',
+            '.gallery-image-half',
             '.faq-header',
             '.faq-item'
         ];
@@ -2045,18 +1990,16 @@
             });
         });
 
-        // ========== PARALLAX EFFECT ON SCROLL ==========
-        let scrollPosition = 0;
-
-        window.addEventListener('scroll', () => {
-            scrollPosition = window.pageYOffset;
-
-            // Subtle parallax on hero
-            const heroSlides = document.querySelectorAll('.hero-slide img');
-            heroSlides.forEach(slide => {
-                slide.style.transform = `translateY(${scrollPosition * 0.3}px)`;
-            });
-        });
+        // ========== PARALLAX EFFECT ON SCROLL (DISABLED) ==========
+        // Ambient movement animation disabled - hero remains static
+        // let scrollPosition = 0;
+        // window.addEventListener('scroll', () => {
+        //     scrollPosition = window.pageYOffset;
+        //     const heroSlides = document.querySelectorAll('.hero-slide img');
+        //     heroSlides.forEach(slide => {
+        //         slide.style.transform = `translateY(${scrollPosition * 0.3}px)`;
+        //     });
+        // });
 
         // ========== LAZY LOADING ENHANCEMENT ==========
         if ('IntersectionObserver' in window) {
@@ -2074,34 +2017,12 @@
             lazyImages.forEach(img => imageObserver.observe(img));
         }
 
-        // ========== MOUSE MOVE EFFECTS ==========
+        // ========== BEFORE/AFTER TAP TO CHANGE ==========
         const showcaseItems = document.querySelectorAll('.showcase-item');
 
         showcaseItems.forEach(item => {
-            item.addEventListener('mousemove', (e) => {
-                const rect = item.getBoundingClientRect();
-                const x = ((e.clientX - rect.left) / rect.width) * 100;
-
-                const divider = item.querySelector('.showcase-divider');
-                if (divider) {
-                    divider.style.left = `${x}%`;
-                }
-
-                const after = item.querySelector('.showcase-after');
-                if (after) {
-                    after.style.clipPath = `polygon(0 0, ${x}% 0, ${x}% 100%, 0 100%)`;
-                }
-            });
-
-            item.addEventListener('mouseleave', () => {
-                const divider = item.querySelector('.showcase-divider');
-                const after = item.querySelector('.showcase-after');
-
-                // Reset on leave
-                setTimeout(() => {
-                    if (divider) divider.style.left = '100%';
-                    if (after) after.style.clipPath = 'polygon(100% 0, 100% 0, 100% 100%, 100% 100%)';
-                }, 100);
+            item.addEventListener('click', () => {
+                item.classList.toggle('showing-after');
             });
         });
 
@@ -2126,136 +2047,67 @@
             });
         });
 
-        // ========== EXPERTISE CAROUSEL WITH PROGRESS BAR ==========
+        // ========== EXPERTISE CAROUSEL WITH PROGRESS DOTS ==========
         const expertiseGrid = document.querySelector('.expertise-grid');
-        const expertiseProgressBar = document.querySelector('.expertise-progress-bar');
+        const expertiseDots = document.querySelectorAll('.expertise-progress-dot');
+        const expertiseCards = document.querySelectorAll('.expertise-card');
 
-        function updateExpertiseProgress() {
-            if (window.innerWidth <= 768 && expertiseGrid && expertiseProgressBar) {
+        function updateExpertiseDots() {
+            if (window.innerWidth <= 768 && expertiseGrid && expertiseDots.length > 0) {
                 const scrollLeft = expertiseGrid.scrollLeft;
-                const scrollWidth = expertiseGrid.scrollWidth - expertiseGrid.clientWidth;
-                const scrollPercentage = (scrollLeft / scrollWidth) * 100;
+                const cardWidth = expertiseCards[0]?.offsetWidth || 0;
+                const gap = 20; // Gap between cards
 
-                // Calculate position for the progress bar (slides it across)
-                const barWidth = 33.33; // Each card represents 33.33% of the total
-                const maxTranslate = 100 - barWidth; // Maximum translation is 66.67%
-                const translateX = (scrollPercentage / 100) * maxTranslate;
+                // Calculate which card is most centered in view
+                const centerOffset = expertiseGrid.clientWidth / 2;
+                let activeIndex = 0;
 
-                expertiseProgressBar.style.transform = `translateX(${translateX * 3}%)`;
+                for (let i = 0; i < expertiseCards.length; i++) {
+                    const cardCenter = (cardWidth + gap) * i + cardWidth / 2;
+                    const distance = Math.abs(scrollLeft + centerOffset - cardCenter);
+                    const prevDistance = Math.abs(scrollLeft + centerOffset - ((cardWidth + gap) * activeIndex + cardWidth / 2));
+
+                    if (distance < prevDistance) {
+                        activeIndex = i;
+                    }
+                }
+
+                // Update active dot
+                expertiseDots.forEach((dot, index) => {
+                    dot.classList.toggle('active', index === activeIndex);
+                });
             }
         }
 
-        // Update progress bar on scroll
+        // Navigate to card when dot is clicked
+        expertiseDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                if (window.innerWidth <= 768 && expertiseGrid && expertiseCards[index]) {
+                    const cardWidth = expertiseCards[0].offsetWidth;
+                    const gap = 20;
+                    const scrollTo = (cardWidth + gap) * index;
+
+                    expertiseGrid.scrollTo({
+                        left: scrollTo,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Update dots on scroll
         if (expertiseGrid) {
-            expertiseGrid.addEventListener('scroll', updateExpertiseProgress, { passive: true });
+            expertiseGrid.addEventListener('scroll', updateExpertiseDots, { passive: true });
 
             // Initial update
-            updateExpertiseProgress();
+            updateExpertiseDots();
 
             // Update on window resize
             window.addEventListener('resize', () => {
-                updateExpertiseProgress();
+                updateExpertiseDots();
             });
         }
 
-        // ========== GALLERY SLIDESHOW ==========
-        let currentGallerySlide = 0;
-        const gallerySlides = document.querySelectorAll('.gallery-slide');
-        const galleryDots = document.querySelectorAll('.gallery-dot');
-        const totalGallerySlides = gallerySlides.length;
-        let galleryAutoplay;
-
-        function showGallerySlide(index) {
-            // Remove active class from all slides and dots
-            gallerySlides.forEach(slide => slide.classList.remove('active'));
-            galleryDots.forEach(dot => dot.classList.remove('active'));
-
-            // Add active class to current slide and dot
-            gallerySlides[index].classList.add('active');
-            galleryDots[index].classList.add('active');
-        }
-
-        function nextGallerySlide() {
-            currentGallerySlide = (currentGallerySlide + 1) % totalGallerySlides;
-            showGallerySlide(currentGallerySlide);
-        }
-
-        function prevGallerySlide() {
-            currentGallerySlide = (currentGallerySlide - 1 + totalGallerySlides) % totalGallerySlides;
-            showGallerySlide(currentGallerySlide);
-        }
-
-        function startGalleryAutoplay() {
-            galleryAutoplay = setInterval(nextGallerySlide, 4000);
-        }
-
-        function stopGalleryAutoplay() {
-            clearInterval(galleryAutoplay);
-        }
-
-        // Arrow navigation
-        document.querySelector('.gallery-arrow.prev').addEventListener('click', () => {
-            stopGalleryAutoplay();
-            prevGallerySlide();
-            startGalleryAutoplay();
-        });
-
-        document.querySelector('.gallery-arrow.next').addEventListener('click', () => {
-            stopGalleryAutoplay();
-            nextGallerySlide();
-            startGalleryAutoplay();
-        });
-
-        // Dot navigation
-        galleryDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                stopGalleryAutoplay();
-                currentGallerySlide = index;
-                showGallerySlide(currentGallerySlide);
-                startGalleryAutoplay();
-            });
-        });
-
-        // Touch/swipe support for mobile
-        let touchStartX = 0;
-        let touchEndX = 0;
-
-        const galleryContainer = document.querySelector('.gallery-slideshow-container');
-
-        galleryContainer.addEventListener('touchstart', (e) => {
-            touchStartX = e.changedTouches[0].screenX;
-        }, { passive: true });
-
-        galleryContainer.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleGallerySwipe();
-        }, { passive: true });
-
-        function handleGallerySwipe() {
-            const swipeThreshold = 50;
-            const diff = touchStartX - touchEndX;
-
-            if (Math.abs(diff) > swipeThreshold) {
-                stopGalleryAutoplay();
-                if (diff > 0) {
-                    // Swipe left - next slide
-                    nextGallerySlide();
-                } else {
-                    // Swipe right - previous slide
-                    prevGallerySlide();
-                }
-                startGalleryAutoplay();
-            }
-        }
-
-        // Start autoplay on page load
-        startGalleryAutoplay();
-
-        // Pause autoplay when user hovers (desktop only)
-        if (window.innerWidth > 768) {
-            galleryContainer.addEventListener('mouseenter', stopGalleryAutoplay);
-            galleryContainer.addEventListener('mouseleave', startGalleryAutoplay);
-        }
 
         // ========== PERFORMANCE OPTIMIZATION ==========
         // Reduce animations on low-performance devices
